@@ -1,8 +1,7 @@
 # Certificate-Generator
 Frontend/Backend app that generates a certificate with correspondent hours filled the right codes, name and e-mail.
-
-
-
+![Frontend printscreen](https://i.imgur.com/MLbmVde.png)
+![Sample certificate printscreen](https://i.imgur.com/40kZJWl.png)
 ## Run instructions
 ### 1. Serve Frontend
 ```
@@ -42,3 +41,4 @@ Currently the app is generating a certificate under `backend/` folder. It's stil
 
 ### Add event logo and signature images samples
 
+### Host website in netlify/heroku
