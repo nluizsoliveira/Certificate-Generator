@@ -1,0 +1,61 @@
+body{
+    background-image: url("./background.jpg");
+    font-family:"Montserrat", "Rubik", sans-serif, "SourceSansPro", Helvetica, Arial, sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    color: white;
+    font-size: 0.875rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+}
+
+#root{
+    display: flex;
+    padding: 5px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 65vw;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    color: black;;
+    background-color :rgba(222, 215, 215, 0.888);
+}
+
+input{
+    border-radius: 4px;
+    border: 1.2px solid gray;
+    margin-bottom: 4px;
+}
+
+#submit{
+    box-shadow: 1px 1px #280c0c;
+    color: white;
+    background-color: #ec1455;
+    padding:8px 16px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+#submit:hover{
+    box-shadow: 2px 2px #280c0c;
+    background-color: #d7104c;
+    
+}
+
+#gradient{
+    background: linear-gradient(90deg, #d7104c, #42392f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#submitWrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Certificados - Nome do Evento</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <div id = "root">
+            <div id="photo">
+                <h1>Certificados- <span id = "gradient">Nome do Evento</span></h1>
+            <form onsubmit="validateCodes(event)" action="#">
+                <span>
+                    1) Preencha os códigos disponibilizados nas palestras ao vivo ou gravações das palestras que você assistiu.
+                    <br>
+                    2) Caso não tenha assistido à alguma palestra e não possua algum código, deixe o campo em branco.
+                    <br>
+                    3) Os campos relativos aos dados pessoais são obrigatórios. 
+                </span>
+                <h2>Códigos</h2>
+                <div class = "inputWrapper">
+                    <input class = "codeInput" type = "text" maxlength="6">
+                    <b>Código 1: "Titulo palestra 1"</b>
+                </div>
+                <div class = "inputWrapper">
+                    <input class = "codeInput" type = "text" maxlength="6">
+                    <b>Código 2: "Titulo palestra 2"</b>
+                </div>
+                <div class = "inputWrapper">
+                    <input class = "codeInput" type = "text" maxlength="6">
+                    <b>Código 3: "Titulo palestra 3</b>
+                </div>
+                <div class = "inputWrapper">
+                    <input class = "codeInput" type = "text" maxlength="6">
+                    <b>Código 4: "Titulo palestra 4"</b>
+                </div>
+                <div class = "inputWrapper">
+                    <input class = "codeInput" type = "text" maxlength="6">
+                    <b>Código 5: "Titulo palestra 5"</b>
+                </div>
+                <h2>Dados pessoais</h2>
+                <div class = "inputWrapper">
+                    <label for="email">E-mail (Mesmo utilizado na inscrição)</label>
+                    <br>
+                    <input id = "email"  name="email" type = "email" required>
+                </div>
+
+                <div class = "inputWrapper">
+                    <label for="name">Nome Completo</label>
+                    <br>
+                    <input id = "name" name="name" type = "text" required>
+                </div>
+                <div id = "submitWrapper">
+                    <input id = "submit" type = "submit" value ="Gerar Certificado"></submit>
+                </div>
+                
+            </form>
+            </div>
+        </div>
+        <script src = "main.js"></script>
+    </body>
+
+</html>
