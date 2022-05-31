@@ -7,12 +7,14 @@ Frontend/Backend app that generates a certificate with correspondent hours fille
 ### 1. Serve Frontend
 ```
 cd frontend/
+npm install
 npm run serve
 ```
 
 ### 2. Serve Backend
 ```
 cd backend/
+npm install
 npm run serve
 ```
 
