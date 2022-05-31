@@ -35,7 +35,10 @@ A certificate will be generated at `backend/`
 
 ## Todo improvements:
 ### Sanitize inputs
-No input is validated at frontend but no sanitization is done at backend yet.
+Inputs are validated at frontend but no sanitization is done at backend yet.
 
 ### Implement a download button
 Currently the app is generating a certificate under `backend/` folder. It's still necessary to transform certificate into a blob and response it to frontend. 
+
+### Add event logo and signature images samples
+
