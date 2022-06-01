@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
+const Joi = require('joi');
 const fs = require('fs');
 const pdf = require('dynamic-html-pdf');
 
@@ -18,17 +18,33 @@ app.use(bodyParser.json());
 
 
 app.post('/', (req, res) => {
-    console.log(req.body)
+    const userSchema = Joi.object({
+        name: Joi.string()
+            .regex(/^\w+(?:\s+\w+)*$/)
+            .min(1)
+            .max(30)
+            .required(),
+    
+        email: Joi.string()
+            .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'br'] } }).required()
+    })
 
     const data = req.body
 
-    const [validValuesData, validValuesQty] = getValidValuesData(data.filledCodeValues)
+    const result = userSchema.validate({name: data.name, email: data.email});
+    if(!result.error){
+        const [validValuesData, validValuesQty] = getValidValuesData(data.filledCodeValues)
 
-    if(validValuesQty){
-        getCertificatePDF(data.name, validValuesData, validValuesQty)
+        if(validValuesQty){
+            getCertificatePDF(data.name, validValuesData, validValuesQty)
+        }
+        
+        res.json({validValuesQty: validValuesQty});
+    } else{
+        const badField = result.error.details[0].context.key
+        console.log(badField)
     }
     
-    res.json({validValuesQty: validValuesQty});
 });
 
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
@@ -100,7 +116,7 @@ const getCertificatePDF = (name, validValuesData, validValuesQty) => {
     
     pdf.create(document, options)
         .then(res => {
-            console.log(res)
+            // console.log(res)
         })
         .catch(error => {
             console.error(error)
