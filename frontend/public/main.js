@@ -17,13 +17,16 @@ const validateCodes = function(e){
 const getFilledCodeValues = function(codeInputs){
     filledCodeValues = {}
     let index = 1;
+    let filledQty = 0; 
     for (const codeInput of codeInputs) {
-        if (codeInput.value!== ""){
+        if (codeInput.value == ""){
+            filledCodeValues[index] = "000000"
+        } else{
             filledCodeValues[index] = codeInput.value
+            filledQty+=1;
         }
         index++;
     }
-    const filledQty = getDictLen(filledCodeValues) 
     return [filledCodeValues, filledQty]
 }
 

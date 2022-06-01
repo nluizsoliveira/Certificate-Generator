@@ -31,17 +31,31 @@ app.post('/', (req, res) => {
 
     const data = req.body
 
-    const result = userSchema.validate({name: data.name, email: data.email});
-    if(!result.error){
-        const [validValuesData, validValuesQty] = getValidValuesData(data.filledCodeValues)
+    const userResult = userSchema.validate({name: data.name, email: data.email});
+    if(!userResult.error){
+        const codesSchema = Joi.object().keys({
+            '1' : Joi.string().alphanum().min(0).max(6).required(),
+            '2' : Joi.string().alphanum().min(0).max(6).required(),
+            '3' : Joi.string().alphanum().min(0).max(6).required(),
+            '4' : Joi.string().alphanum().min(0).max(6).required(),
+            '5' : Joi.string().alphanum().min(0).max(6).required()
+         });
 
-        if(validValuesQty){
-            getCertificatePDF(data.name, validValuesData, validValuesQty)
+        const codesResult = codesSchema.validate(data.filledCodeValues);
+        if(!codesResult.error){
+            const [validValuesData, validValuesQty] = getValidValuesData(data.filledCodeValues)
+
+            if(validValuesQty){
+                getCertificatePDF(data.name, validValuesData, validValuesQty)
+            }
+            
+            res.json({validValuesQty: validValuesQty});
+        } else{
+            res.json({validValuesQty: 0})
         }
         
-        res.json({validValuesQty: validValuesQty});
     } else{
-        const badField = result.error.details[0].context.key
+        const badField = userResult.error.details[0].context.key
         console.log(badField)
     }
     
@@ -74,7 +88,6 @@ const getValidValuesData = (filledCodeValues) =>{
             })
         }
     }
-
     const validValuesQty =  getDictLen(validValuesData) 
     return [validValuesData, validValuesQty]
 }
