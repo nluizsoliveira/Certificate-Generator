@@ -4,18 +4,29 @@ const bodyParser = require('body-parser');
 const Joi = require('joi');
 const fs = require('fs');
 const pdf = require('dynamic-html-pdf');
+let path = require('path');
 
+const VALID_CODES = {
+    1: '1cx8J0',
+    2: '2c91j7',
+    3: '3c42km',
+    4: '4cKv54',
+    5: '5cj4xX',
+}
+
+const TALKS_DATA = {
+    1: 'Palestra 1',
+    2: 'Palestra 2',
+    3: 'Palestra 3',
+    4: 'Palestra 4',
+    5: 'Palestra 5',
+}
 
 const app = express();
 const port = 3000;
-
-
 app.use(cors());
-
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 
 app.post('/', (req, res) => {
     const userSchema = Joi.object({
@@ -44,13 +55,18 @@ app.post('/', (req, res) => {
         const codesResult = codesSchema.validate(data.filledCodeValues);
         if(!codesResult.error){
             const [validValuesData, validValuesQty] = getValidValuesData(data.filledCodeValues)
-
+            console.log(validValuesQty);
             if(validValuesQty){
-                getCertificatePDF(data.name, validValuesData, validValuesQty)
+                res.json({
+                    "validValuesQty" : validValuesQty,
+                    "name": data.name,
+                    "validValuesData": validValuesData
+                })
+            } else{
+                res.json({validValuesQty: 0})
             }
-            
-            res.json({validValuesQty: validValuesQty});
         } else{
+            console.log("errou");
             res.json({validValuesQty: 0})
         }
         
@@ -58,26 +74,10 @@ app.post('/', (req, res) => {
         const badField = userResult.error.details[0].context.key
         console.log(badField)
     }
-    
 });
 
-app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
+app.listen(port, () => console.log(`App listening on port ${port}!`))
 
-const VALID_CODES = {
-    1: '1cx8J0',
-    2: '2c91j7',
-    3: '3c42km',
-    4: '4cKv54',
-    5: '5cj4xX',
-}
-
-const TALKS_DATA = {
-    1: 'Palestra 1',
-    2: 'Palestra 2',
-    3: 'Palestra 3',
-    4: 'Palestra 4',
-    5: 'Palestra 5',
-}
 
 const getValidValuesData = (filledCodeValues) =>{
     validValuesData= []
@@ -92,14 +92,11 @@ const getValidValuesData = (filledCodeValues) =>{
     return [validValuesData, validValuesQty]
 }
 
-
-
 const getDictLen = (dict) =>{
     return Object.keys(dict).length 
 }
 
-
-const getCertificatePDF = (name, validValuesData, validValuesQty) => {
+const getCertificatePDF = (name, validValuesData, validValuesQty, response) => {
     let html = fs.readFileSync('template.html', 'utf8');
 
     pdf.registerHelper('ifCond', function (v1, v2, options) {
@@ -129,11 +126,18 @@ const getCertificatePDF = (name, validValuesData, validValuesQty) => {
     
     pdf.create(document, options)
         .then(res => {
-            // console.log(res)
+            console.log(res)
+            let filePath = path.join(__dirname, 'certificate.pdf');
+            console.log("FILE PATH: ", filePath);                            
+            response.download(filePath, "certificate.pdf");
         })
         .catch(error => {
             console.error(error)
-        }).then;
+        });
 }
 
-
+app.post('/download', (req, res) => {
+    const data = req.body;
+    console.log("DATA", data);
+    getCertificatePDF(data.name, data.validValuesData, data.validValuesQty, res)
+});
