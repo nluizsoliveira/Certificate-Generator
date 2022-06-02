@@ -1,5 +1,5 @@
 # Certificate-Generator
-https://www.when2meet.com/?15819960-8xIJw 
+[Video of applicatoin running](https://www.youtube.com/watch?v=56EUjDBRZEY)
 Frontend/Backend app that generates a certificate with correspondent hours filled the right codes, name and e-mail.
 ![Frontend printscreen](https://i.imgur.com/MLbmVde.png)
 ![Sample certificate printscreen](https://i.imgur.com/40kZJWl.png)
