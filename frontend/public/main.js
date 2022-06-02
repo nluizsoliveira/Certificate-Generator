@@ -58,7 +58,7 @@ const sendForm = (filledCodeValues, email, name) =>{
 
     const data = JSON.stringify(
         {
-            filledCodeValues,
+            filledCodeValues: filledCodeValues,
             email: email,
             name: name
         }
@@ -72,11 +72,37 @@ const sendForm = (filledCodeValues, email, name) =>{
         body: data,
       })
         .then((res) => res.json())
-        .then((data) => {
-            alertAllFilledInvalid(data.validValuesQty)
-        });
+        .then((processedData) => {
+            alertAllFilledInvalid(processedData.validValuesQty)
+            const dataString = JSON.stringify(processedData);
+            if(processedData.validValuesQty > 0){
+                console.log("DATA STRING ", dataString)
+                const downloadUrl = url + "download";
+                fetch(downloadUrl, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: dataString,
+                  })
+                .then((res2) => 
+                    res2.blob()
+                )
+                .then((blob)=>{
+                    const newBlob = new Blob([blob]);
+                    const newUrl = window.URL.createObjectURL(newBlob);
 
-    console.log(data)
+                    const link = document.createElement('a');
+                    link.href = newUrl;
+                    link.setAttribute('download', 'certificate.pdf');
+                    document.body.appendChild(link);
+                    link.click();
+                    link.parentNode.removeChild(link);
+
+                    window.URL.revokeObjectURL(newBlob);
+                })
+            }
+        })
 }
 
 const alertAllFilledInvalid = (validValuesQty) => {
