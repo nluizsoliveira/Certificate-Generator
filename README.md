@@ -33,15 +33,18 @@ Fill inputs with equivalent some `VALID_CODES` and name/e-mail.
 A certificate will be generated at `backend/`
 
 ## Todo improvements:
-### Implement a download button
-Currently the app is generating a certificate under `backend/` folder. It's still necessary to transform certificate into a blob and response it to frontend. 
+
 
 ### Add event logo and signature images samples
 
 ### Host website in netlify/heroku
+
+## return expiring token in / route so /download route can only be accessed if user has a valid token 
 
 ## Improvements Implemented
 ### 1 Sanitize name and mail
 Fields are now sanitized in backend using `joi` library. 
 ### 2 Sanitize Codes
 Codes are now sanitized as well
+### 3 Download button working!
+App now downlods the pdf generated
